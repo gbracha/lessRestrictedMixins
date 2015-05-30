@@ -145,7 +145,7 @@ First, the argument list (a1,...,an,xn+1 : an+1,...,xn+k : an+k) is evaluated yi
 In addition, we revise the last paragraph of 16.17.3 to state:
 
 Let S_static be the superclass of the immediately enclosing class. It is a static type warning if S<sub>static</sub> does not have an accessible (6.2) instance
-member named m unless S<sub>static</sub> or a superinterface of S<sub>static</sub> is annotated with an annotation denoting a constant identical to the constant @proxy defined in dart:core. If S<sub>static</sub>.m exists, it is a static type warning if the type F of S<sub>static</sub>.m may not be assigned to a function type. If S<sub>static.m does not exist, or if F is not a function type, the static type of i is dynamic; otherwise the static type of i is the declared return type of F.
+member named m unless S<sub>static</sub> or a superinterface of S<sub>static</sub> is annotated with an annotation denoting a constant identical to the constant @proxy defined in dart:core. If S<sub>static</sub>.m exists, it is a static type warning if the type F of S<sub>static</sub>.m may not be assigned to a function type. If S<sub>static.m</sub> does not exist, or if F is not a function type, the static type of i is dynamic; otherwise the static type of i is the declared return type of F.
 
 
 
