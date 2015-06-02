@@ -157,23 +157,23 @@ If the method lookup has failed, then let *g* be the result of looking up getter
 
 If getter lookup has also failed, then a new instance *im* of the predefined class Invocation is created, such that :
 
-• im.isMethod evaluates to true.
++ im.isMethod evaluates to true.
 
-• im.memberName evaluates to the symbol *m*.
++ im.memberName evaluates to the symbol *m*.
 
-• im.positionalArguments evaluates to an immutable list with the same values as *[o<sub>1</sub>,...,o<sub>n</sub>]*.
++ im.positionalArguments evaluates to an immutable list with the same values as *[o<sub>1</sub>,...,o<sub>n</sub>]*.
 
-• im.namedArguments evaluates to an immutable map with the same keys and values as *{x<sub>n+1</sub> : o<sub>n+1</sub>, . . . , x<sub>n+k</sub> : o<sub>n+k</sub>}*.
++ im.namedArguments evaluates to an immutable map with the same keys and values as *{x<sub>n+1</sub> : o<sub>n+1</sub>, . . . , x<sub>n+k</sub> : o<sub>n+k</sub>}*.
 
 Then the method noSuchMethod() is looked up in *S<sub>dynamic</sub>* and invoked on **this** with argument *im*, and the result of this invocation is the result of evaluating *i*. However, if the implementation found cannot be invoked with a single positional argument, the implementation of noSuchMethod() in class Object is invoked on this with argument *im′*, where *im′* is an instance of Invocation such that :
 
-• im’.isMethod evaluates to **true**.
++ im’.isMethod evaluates to **true**.
 
-• im’.memberName evaluates to #noSuchMethod.
++ im’.memberName evaluates to #noSuchMethod.
 
-• im’.positionalArguments evaluates to an immutable list whose sole element is *im*.
++ im’.positionalArguments evaluates to an immutable list whose sole element is *im*.
 
-• im’.namedArguments evaluates to the value of **const** {}.
++ im’.namedArguments evaluates to the value of **const** {}.
 
 and the result of this latter invocation is the result of evaluating *i*.
 It is a compile-time error if a super method invocation occurs in a top-level function or variable initializer, in an instance variable initializer or initializer list, in class Object, in a factory constructor or in a static method or variable
@@ -195,24 +195,24 @@ Otherwise, *i* is a getter invocation. Let *f* be the result of looking up gette
 
 If the getter lookup has failed, then a new instance *im* of the predefined class Invocation is created, such that :
 
-• im.isGetter evaluates to **true**.
++ im.isGetter evaluates to **true**.
 
-• im.memberName evaluates to the symbol *m*.
++ im.memberName evaluates to the symbol *m*.
 
-• im.positionalArguments evaluates to the value of **const** []. 
++ im.positionalArguments evaluates to the value of **const** []. 
 
-• im.namedArguments evaluates to the value of **const** {}.
++ im.namedArguments evaluates to the value of **const** {}.
 
 
 Then the method noSuchMethod() is looked up in *S<sub>dynamic</sub>* and invoked with argument *im*, and the result of this invocation is the result of evaluating *i*. However, if the implementation found cannot be invoked with a single positional argument, the implementation of noSuchMethod() in class Object is invoked on this with argument *im′*, where *im′* is an instance of Invocation such that :
 
-• im’.isMethod evaluates to **true**.
++ im’.isMethod evaluates to **true**.
 
-• im’.memberName evaluates to #noSuchMethod.
++ im’.memberName evaluates to #noSuchMethod.
 
-• im’.positionalArguments evaluates to an immutable list whose sole element is *im*.
++ im’.positionalArguments evaluates to an immutable list whose sole element is *im*.
 
-• im’.namedArguments evaluates to the value of **const** {}.
++ im’.namedArguments evaluates to the value of **const** {}.
 
 and the result of this latter invocation is the result of evaluating *i*.
 
@@ -225,12 +225,12 @@ or getter named *m*.
 
 The static type of *i* is:
 
-• The declared return type of *S<sub>static</sub>.m*, if *S<sub>static</sub>* has an accessible instance getter named *m*.
++ The declared return type of *S<sub>static</sub>.m*, if *S<sub>static</sub>* has an accessible instance getter named *m*.
 
-• The static type of function *S<sub>static</sub>.m* if *S<sub>static</sub>* has an accessible instance method
++ The static type of function *S<sub>static</sub>.m* if *S<sub>static</sub>* has an accessible instance method
 named *m*.
 
-• The type **dynamic** otherwise.
++ The type **dynamic** otherwise.
 
 
 ##16.18.6 General Super Property Extraction
@@ -278,13 +278,13 @@ If the setter lookup has failed, then a new instance *im* of the predefined clas
 
 Then the method noSuchMethod() is looked up in *S<sub>dynamic</sub>* and invoked with argument *im*. However, if the implementation found cannot be invoked with a single positional argument, the implementation of noSuchMethod() in class Object is invoked on **this** with argument *im′*, where *im′* is an instance of Invocation such that :
 
-• im’.isMethod evaluates to true.
++ im’.isMethod evaluates to true.
 
-• im’.memberName evaluates to #noSuchMethod.
++ im’.memberName evaluates to #noSuchMethod.
 
-• im’.positionalArguments evaluates to an immutable list whose sole element is *im*.
++ im’.positionalArguments evaluates to an immutable list whose sole element is *im*.
 
-• im’.namedArguments evaluates to the value of **const** {}.
++ im’.namedArguments evaluates to the value of **const** {}.
 
 
 The value of the assignment expression is *o* irrespective of whether setter lookup has failed or succeeded.
