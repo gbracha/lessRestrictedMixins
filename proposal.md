@@ -94,7 +94,27 @@ In this case, none of the constructors along the superclass chain take parameter
 
 ##Semantics
 
-We propose to revise section 12 of the specification as follows:
+As noted, only one of the existing three restrictions on classes used as miixns in retained: the class cannot have a non-trivial constructor. This in turn implies that its superclass cannot have a non-trivial constructor.
+
+A mixin application is treated as subtype of the class whose mixin is being applied. Warnings are given if this would not in fact be the case. Specifically, if the mixin is applied to a superclass that is not a subtype of the superclass of origianl class, a warning issued. This serves two purposes:
+
++ It gives notice that **super** calls in the code may fail, as they will be bound to the actual superclass which may be lacking expected members.
+
++ It gives notice that the mixin application itself may not provide all the expected interface of the mixin, since some inherited members might be missing.
+
+In addition, a warning is issued if the class declaration incorporating the mixin application does not implement all the direct superinterfaces that the original mixin listed. This serves a similar purpose to the latter bullet above. 
+
+The ability to use **super** in a mixin implies that **super** calls are no longer statically bound to the superclass of the class in which they appear. The actual superclass the call will bind to is the class to which the mixin is applied. This can be implemented in different ways - either by dynamic binding or by copying modified versions of the containing method to the mxin application.
+
+The semantics are described by the specification changes below.
+
+We revise section 12 of the specification to remove the restrictions on superclasses and the use of **super**. This includes changes to the body of section 12, and appending some text to section 12.1.
+
+The text for super invocation needs to be slightly revised so it is clear that the call is late bound (at least conceptually) to the next mixin application up the inheritance chain. This occurs in sections 16.17.3, 16.18.2, 16.18.6, 16.19. In all cases, one has to distinguish between S<sub>static</sub>, the superclass of the enclosing class, and S<sub>dynamic</sub>, the superclass of the mixin application executing at the point of the call.
+
+In support of the above, a slight change in the wordoing of 16.15.1 and 16.15.2 is required. The changed is highlighted in **bold**.
+
+
 
 
 ##12 Mixins
@@ -111,7 +131,7 @@ The restriction on constructors simplifies the construction of mixin application
 Reasonable answers exist for all these issues, but their implementation is non-trivial.~~
 
 
-Furthermore, in section **12.1 Mixin Application**, we add the following:
+### **12.1 Mixin Application**
 
 Let *M<sub>A</sub>* be a mixin derived from a class *M* with direct superclass *S*. 
 
@@ -137,9 +157,7 @@ The result of a lookup of a getter (respectively setter) *m* in class *C* with r
 
 *The motivation for skipping abstract members during lookup is largely to allow smoother mixin composition.*
 
-The text for super invocation (16.7.3) needs to be slightly revised so it is clear that the call is late bound (at least conceptually) to the next mixin application up the inheritance chain. Likewise sections 16.18.2, 16.18.6 (16.18.10 is ok). In all cases, one has to distinguish between S<sub>static</sub>, the superclass of the enclosing class, and S<sub>dynamic</sub>, the superclass of the mixin application executing at the point of the call.
 
- To achieve this, we revise the initial section of 16.17.3
 
 ## 16.17.3 Super Invocation
 
