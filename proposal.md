@@ -115,7 +115,7 @@ Furthermore, in section **12.1 Mixin Application**, we add the following:
 
 Let *M<sub>A</sub>* be a mixin derived from a class *M* with direct superclass *S*. 
 
-Let *A* be an application of *M<sub>A</sub>. It is a static warning if the superclass of *A* is not a subtype of *S*.
+Let *A* be an application of *M<sub>A</sub>*. It is a static warning if the superclass of *A* is not a subtype of *S*.
 
 Let *C* be a class declaration  that includes *M<sub>A</sub>* in a **with** clause. It is a static warning if *C* does not implement, directly or indirectly, all the direct superinterfaces of *M*. 
 
@@ -123,7 +123,8 @@ Let *C* be a class declaration  that includes *M<sub>A</sub>* in a **with** clau
 ## 16.15.1 Method Lookup
 
 The result of a lookup of a method *m* in object *o* with respect to library *L* is the result of a lookup of method *m* in class *C* with respect to library *L*, where *C* is the class of *o*.
-The result of a lookup of method *m* in class *C* with respect to library *L* is: If *C* declares a concrete instance method named *m* that is accessible to *L*, then that method is the result of the lookup, and we say that the method was *looked up in C*. Otherwise, if *C* has a superclass *S*, then the result of the lookup is the result of looking up *m* in *S* with respect to *L*. Otherwise, we say that the method lookup has failed.
+
+The result of a lookup of method *m* in class *C* with respect to library *L* is: If *C* declares a concrete instance method named *m* that is accessible to *L*, then that method is the result of the lookup**, and we say that the method was *looked up in C*.** Otherwise, if *C* has a superclass *S*, then the result of the lookup is the result of looking up *m* in *S* with respect to *L*. Otherwise, we say that the method lookup has failed.
 
 *The motivation for skipping abstract members during lookup is largely to allow smoother mixin composition.*
 
@@ -132,11 +133,11 @@ The result of a lookup of method *m* in class *C* with respect to library *L* is
 
 The result of a lookup of a getter (respectively setter) *m* in object *o* with respect to library *L* is the result of looking up getter (respectively setter) *m* in class *C* with respect to *L*, where *C* is the class of *o*.
 
-The result of a lookup of a getter (respectively setter) *m* in class *C* with respect to library *L* is: If *C* declares a concrete instance getter (respectively setter) named *m* that is accessible to *L*, then that getter (respectively setter) is the result of the lookup, and we say that the getter was lookeup in *C*. Otherwise, if *C* has a superclass *S*, then the result of the lookup is the result of looking up getter (respectively setter) *m* in *S* with respect to *L*. Otherwise, we say that the lookup has failed.
+The result of a lookup of a getter (respectively setter) *m* in class *C* with respect to library *L* is: If *C* declares a concrete instance getter (respectively setter) named *m* that is accessible to *L*, then that getter (respectively setter) is the result of the lookup**, and we say that the getter was *looked up in C*.** Otherwise, if *C* has a superclass *S*, then the result of the lookup is the result of looking up getter (respectively setter) *m* in *S* with respect to *L*. Otherwise, we say that the lookup has failed.
 
 *The motivation for skipping abstract members during lookup is largely to allow smoother mixin composition.*
 
-The text for super invocation (16.7.3) needs to be slightly revised so it is clear that the call is late bound (at least conceptually) to the next mixin application up the inheritance chain. Likewise sections 16.18.2, 16.18.6 (16.18.10 is ok). In both cases, one has to distinguish between S<sub>static</sub>, the superclass of the enclosing class, and S<sub>dynamic</sub>, the superclass of the mixin application executing at the point of the call.
+The text for super invocation (16.7.3) needs to be slightly revised so it is clear that the call is late bound (at least conceptually) to the next mixin application up the inheritance chain. Likewise sections 16.18.2, 16.18.6 (16.18.10 is ok). In all cases, one has to distinguish between S<sub>static</sub>, the superclass of the enclosing class, and S<sub>dynamic</sub>, the superclass of the mixin application executing at the point of the call.
 
  To achieve this, we revise the initial section of 16.17.3
 
@@ -145,17 +146,94 @@ The text for super invocation (16.7.3) needs to be slightly revised so it is cle
 A super method invocation *i* has the form *super.m(a<sub>1</sub>,...,a<sub>n</sub>,x<sub>n+1</sub> : a<sub>n+1</sub>,...,x<sub>n+k</sub> : a<sub>n+k</sub>)*.
 Evaluation of *i* proceeds as follows:
 
-First, the argument list *(a<sub>1</sub>,...,a<sub>n</sub>,x<sub>n+1</sub> : a<sub>n+1</sub>,...,x<sub>n+k</sub> : a<sub>n+k</sub>)* is evaluated yielding actual argument objects *o<sub>1</sub>*, . . . , *o<sub>n+k</sub>*. Let *g* be the method currently executing, and let *C* be the class in which *g* was looked up. Let *S<sub>dynamic</sub>* be the superclass of *C* ~~the immediately enclosing class~~, and let *f* be the result of looking up method (16.15.1) *m* in *S<sub>dynamic</sub>* with respect to the current library *L*.
+First, the argument list *(a<sub>1</sub>,...,a<sub>n</sub>,x<sub>n+1</sub> : a<sub>n+1</sub>,...,x<sub>n+k</sub> : a<sub>n+k</sub>)* is evaluated yielding actual argument objects *o<sub>1</sub>*, . . . , *o<sub>n+k</sub>*. Let *g* be the method currently executing, and let *C* be the class in which *g* was looked up. Let *S<sub>dynamic</sub>* be the superclass of *C* ~~the immediately enclosing class~~, and let *f* be the result of looking up method (16.15.1) *m* in *S<sub>dynamic</sub>* with respect to the current library *L*.Let *p<sub>1</sub> . . . p<sub>h</sub>* be the required parameters of *f* , let *p<sub>1</sub> . . . p<sub>m</sub>* be the positional parameters of *f* and let *p<sub>h+1</sub>, . . . , p<sub>h+l</sub>* be the optional parameters declared by *f*.
 
+If *n < h*, or *n > m*, the method lookup has failed. Furthermore, each *x<sub>i</sub>, n + 1 ≤ i ≤ n + k*
+, must have a corresponding named parameter in the set *{p<sub>m+1</sub>, . . . , p<sub>h+l</sub>}* or the method lookup also fails. Otherwise method lookup has succeeded.
 
-In addition, we revise the last paragraph of 16.17.3 to state:
+If the method lookup succeeded, the body of *f* is executed with respect to the bindings that resulted from the evaluation of the argument list, and with this bound to the current value of this. The value of *i* is the value returned after *f* is executed.
+
+If the method lookup has failed, then let *g* be the result of looking up getter (16.15.2) *m* in *S<sub>dynamic</sub>* with respect to *L*. If the getter lookup succeeded, let *v<sub>g</sub>* be the value of the getter invocation **super***.m*. Then the value of *i* is the result of invoking the static method Function.apply() with arguments *v.g,[o<sub>1</sub>,...,o<sub>n</sub>],{x<sub>n+1</sub> : o<sub>n+1</sub>,...,x<sub>n+k</sub> : o<sub>n+k</sub>}*.
+
+If getter lookup has also failed, then a new instance *im* of the predefined class Invocation is created, such that :
+
+• im.isMethod evaluates to true.
+• im.memberName evaluates to the symbol *m*.
+• im.positionalArguments evaluates to an immutable list with the same values as [o1,...,on].
+• im.namedArguments evaluates to an immutable map with the same keys and values as {xn+1 : on+1, . . . , xn+k : on+k}.
+
+Then the method noSuchMethod() is looked up in *S<sub>dynamic</sub>* and invoked on **this** with argument *im*, and the result of this invocation is the result of evaluating *i*. However, if the implementation found cannot be invoked with a single positional argument, the implementation of noSuchMethod() in class Object is invoked on this with argument *im′*, where *im′* is an instance of Invocation such that :
+
+• im’.isMethod evaluates to **true**.
+• im’.memberName evaluates to #noSuchMethod.
+• im’.positionalArguments evaluates to an immutable list whose sole element is *im*.
+• im’.namedArguments evaluates to the value of **const** {}.
+
+and the result of this latter invocation is the result of evaluating *i*.
+It is a compile-time error if a super method invocation occurs in a top-level function or variable initializer, in an instance variable initializer or initializer list, in class Object, in a factory constructor or in a static method or variable
+initializer.
 
 Let *S<sub>static</sub>* be the superclass of the immediately enclosing class. It is a static type warning if *S<sub>static</sub>* does not have an accessible (6.2) instance
 member named *m* unless *S<sub>static</sub>* or a superinterface of *S<sub>static</sub>* is annotated with an annotation denoting a constant identical to the constant @proxy defined in dart:core. If *S<sub>static</sub>.m* exists, it is a static type warning if the type *F* of *S<sub>static</sub>.m* may not be assigned to a function type. If *S<sub>static</sub>.m* does not exist, or if *F* is not a function type, the static type of *i* is dynamic; otherwise the static type of *i* is the declared return type of *F*.
 
 
 
+##16.18.2 Super Getter Access and Method Closurization
 
+Evaluation of a property extraction *i* of the form super.m proceeds as follows:
+
+Let *g* be the method currently executing, and let *C* be the class in which *g* was looked up. Let *S<sub>dynamic</sub>* be the superclass of *C*
+~~Let *S* be the superclass of the immediately enclosing class~~. Let *f* be the result of looking up method *m* in *S<sub>dynamic</sub>* with respect to the current library *L*. If method lookup succeeds then *i* evaluates to the closurization of method *f* with respect to superclass *S<sub>dynamic</sub>* (16.18.10).
+
+Otherwise, *i* is a getter invocation. Let *f* be the result of looking up getter *m* in *S<sub>dynamic</sub>* with respect to *L*. The body of *f* is executed with this bound to the current value of **this**. The value of *i* is the result returned by the call to the getter function.
+
+If the getter lookup has failed, then a new instance *im* of the predefined class Invocation is created, such that :
+
+• im.isGetter evaluates to **true**.
+• im.memberName evaluates to the symbol *m*.
+• im.positionalArguments evaluates to the value of **const** []. 
+• im.namedArguments evaluates to the value of **const** {}.
+
+Then the method noSuchMethod() is looked up in *S<sub>dynamic</sub>* and invoked with argument *im*, and the result of this invocation is the result of evaluating *i*. However, if the implementation found cannot be invoked with a single positional argument, the implementation of noSuchMethod() in class Object is invoked on this with argument *im′*, where *im′* is an instance of Invocation such that :
+
+• im’.isMethod evaluates to **true**.
+• im’.memberName evaluates to #noSuchMethod.
+• im’.positionalArguments evaluates to an immutable list whose sole element is *im*.
+• im’.namedArguments evaluates to the value of **const** {}.
+and the result of this latter invocation is the result of evaluating *i*.
+
+
+
+Let *S<sub>static</sub>* be the superclass of the immediately enclosing class. 
+
+It is a static type warning if *S<sub>static</sub>* does not have an accessible instance method
+or getter named *m*.
+
+The static type of *i* is:
+
+• The declared return type of *S<sub>static</sub>.m*, if *S<sub>static</sub>* has an accessible instance getter named *m*.
+• The static type of function *S<sub>static</sub>.m* if *S<sub>static</sub>* has an accessible instance method
+named *m*.
+• The type **dynamic** otherwise.
+
+##16.18.6 General Super Property Extraction
+
+Evaluation of a property extraction *i* of the form super#m proceeds as follows:
+
+Let *g* be the method currently executing, and let *C* be the class in which *g* was looked up. Let *S<sub>dynamic</sub>* be the superclass of *C*
+~~Let *S* be the superclass of the immediately enclosing class.~~
+
+If *m* is a setter name, let *f* be the result of looking up setter *m* in *S<sub>dynamic</sub>* with respect to the current library *L*. If setter lookup succeeds then *i* evaluates to the closurization of setter *f* with respect to superclass *S<sub>dynamic</sub>* (16.18.10). If setter lookup failed, a NoSuchMethodError is thrown.
+
+If *m* is not a setter name, let *f* be the result of looking up method *m* in *S<sub>dynamic</sub>* with respect to the current library *L*. If method lookup succeeds then *i* evaluates to the closurization of method *m* with respect to superclass *S<sub>dynamic</sub>* (16.18.10).
+
+Otherwise, let f be the result of looking up getter m in *S<sub>dynamic</sub>* with respect to the current library L. If getter lookup succeeds then i evaluates to the closurization of getter f with respect to superclass *S<sub>dynamic</sub>* (16.18.10). If getter lookup failed, a NoSuchMethodError is thrown.
+
+Let *S<sub>static</sub>* be the superclass of the immediately enclosing class. 
+
+It is a static type warning if *S<sub>static</sub>* does not have an accessible instance member named *m*.
+
+The static type of *i* is the static type of the function *S<sub>static</sub>.m*, if *S<sub>static</sub>* has an accessible instance member named *m*. Otherwise the static type of *i* is **dynamic**.
 
 
 ##A Working Implementation
