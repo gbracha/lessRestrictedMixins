@@ -111,10 +111,13 @@ The restriction on constructors simplifies the construction of mixin application
 Reasonable answers exist for all these issues, but their implementation is non-trivial.~~
 
 
-Furthermore, in section 12.1 Mixin Application, we add the following:
+Furthermore, in section **12.1 Mixin Application**, we add the following:
 
-Let *M<sub>A</sub>* be a mixin derived from a class *M* with direct superclass *S*.
-Let *C* be a class declaration  that includes *M<sub>A</sub>* in its **extends** clause. It is a static warning if *C* is not a subtype of *M*. It is a static warning if the direct superclass of *M<sub>A</sub>* isnot a subtype of *S*.
+Let *M<sub>A</sub>* be a mixin derived from a class *M* with direct superclass *S*. 
+
+Let *A* be an application of *M<sub>A</sub>. It is a static warning if the superclass of *A* is not a subtype of *S*.
+
+Let *C* be a class declaration  that includes *M<sub>A</sub>* in a **with** clause. It is a static warning if *C* does not implement, directly or indirectly, all the direct superinterfaces of *M*. 
 
 
 ## 16.15.1 Method Lookup
