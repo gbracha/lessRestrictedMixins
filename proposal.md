@@ -227,7 +227,7 @@ If *m* is a setter name, let *f* be the result of looking up setter *m* in *S<su
 
 If *m* is not a setter name, let *f* be the result of looking up method *m* in *S<sub>dynamic</sub>* with respect to the current library *L*. If method lookup succeeds then *i* evaluates to the closurization of method *m* with respect to superclass *S<sub>dynamic</sub>* (16.18.10).
 
-Otherwise, let f be the result of looking up getter m in *S<sub>dynamic</sub>* with respect to the current library L. If getter lookup succeeds then i evaluates to the closurization of getter f with respect to superclass *S<sub>dynamic</sub>* (16.18.10). If getter lookup failed, a NoSuchMethodError is thrown.
+Otherwise, let *f* be the result of looking up getter *m* in *S<sub>dynamic</sub>* with respect to the current library *L*. If getter lookup succeeds then *i* evaluates to the closurization of getter *f* with respect to superclass *S<sub>dynamic</sub>* (16.18.10). If getter lookup failed, a NoSuchMethodError is thrown.
 
 Let *S<sub>static</sub>* be the superclass of the immediately enclosing class. 
 
@@ -235,6 +235,42 @@ It is a static type warning if *S<sub>static</sub>* does not have an accessible 
 
 The static type of *i* is the static type of the function *S<sub>static</sub>.m*, if *S<sub>static</sub>* has an accessible instance member named *m*. Otherwise the static type of *i* is **dynamic**.
 
+
+We also modify one section of 16.19
+
+## 16.19 Assignment
+
+
+
+
+Evaluation of an assignment of the form super.v = e proceeds as follows:
+
+Let *g* be the method currently executing, and let *C* be the class in which *g* was looked up. Let *S<sub>dynamic</sub>* be the superclass of *C*
+~~Let S be the superclass of the immediately enclosing class~~. The expression *e* is evaluated to an object *o*. Then, the setter *v=* is looked up (16.15.2) in *S<sub>dynamic</sub>*
+with respect to the current library. The body of *v=* is executed with its formal parameter bound to o and this bound to **this**.
+
+If the setter lookup has failed, then a new instance *im* of the predefined class Invocation is created, such that :
+
+• im.isSetter evaluates to **true**.
+• im.memberName evaluates to the symbol *v=*.
+• im.positionalArguments evaluates to an immutable list with the same values as *[o]*.
+• im.namedArguments evaluates to the value of **const** {}.
+
+Then the method noSuchMethod() is looked up in *S<sub>dynamic</sub>* and invoked with argument *im*. However, if the implementation found cannot be invoked with a single positional argument, the implementation of noSuchMethod() in class Object is invoked on **this** with argument *im′*, where *im′* is an instance of Invocation such that :
+• im’.isMethod evaluates to true.
+• im’.memberName evaluates to #noSuchMethod.
+• im’.positionalArguments evaluates to an immutable list whose sole element is *im*.
+• im’.namedArguments evaluates to the value of **const** {}.
+
+The value of the assignment expression is *o* irrespective of whether setter lookup has failed or succeeded.
+
+Let *S<sub>static</sub>* be the superclass of the immediately enclosing class. 
+
+In checked mode, it is a dynamic type error if *o* is not null and the interface of the class of *o* is not a subtype of the actual type of *S<sub>static</sub>.v*.
+
+It is a static type warning if *S<sub>static</sub>* does not have an accessible instance setter named *v=* unless *S<sub>static</sub>* or a superinterface of *S<sub>static</sub>* is annotated with an annotation denoting a constant identical to the constant @proxy defined in dart:core.
+
+It is a static type warning if the static type of *e* may not be assigned to the static type of the formal parameter of the setter *v=*. The static type of the expression **super***.v = e* is the static type of *e*.
 
 ##A Working Implementation
 
