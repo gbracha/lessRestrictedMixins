@@ -17,7 +17,7 @@ We propose to remove the some of restrictions on mixins curently in Dart. Specif
 * Mixins can refer to super.
 * Mixins can have superclasses other than Object.
 
-When a mixin is applied, the resulting type is a subtype of the mixin type, as it is today. However, if the resulting type would not otherwise be a subtype of the declared supertypes of the mixin, a warning is issued. Hence, a mixin application would have to declare that it implements the mixin's superclass and superinterfaces in order to be warning-free.
+When a mixin is applied, the resulting type is a subtype of the mixin type, as it is today. However, if the resulting type would not otherwise be a subtype of the declared supertypes of the mixin, a warning is issued. Hence, a mixin application would have to declare, directly or indirectly, that itssuperclass implements the mixin's superclass, and that it implements the mixin's superinterfaces in order to be warning-free.
 
 
 ##Motivation
@@ -113,8 +113,8 @@ Reasonable answers exist for all these issues, but their implementation is non-t
 
 Furthermore, in section 12.1 Mixin Application, we add the following:
 
-Let *M<sub>A</sub>* be a mixin derived from a class *M*.
-If a class declaration includes *M<sub>A</sub>* in its extends clause, then if the class is not a subtype of *M*, a warning is issued.
+Let *M<sub>A</sub>* be a mixin derived from a class *M* with direct superclass *S*.
+Let *C* be a class declaration  that includes *M<sub>A</sub>* in its **extends** clause. It is a static warning if *C* is not a subtype of *M*. It is a static warning if the direct superclass of *M<sub>A</sub>* isnot a subtype of *S*.
 
 
 ## 16.15.1 Method Lookup
@@ -133,7 +133,7 @@ The result of a lookup of a getter (respectively setter) *m* in class *C* with r
 
 *The motivation for skipping abstract members during lookup is largely to allow smoother mixin composition.*
 
-The text for super invocation (16.7.3) needs to be slightly revised so it is clear that the call is late bound (at least conceptually) to the next mixin application up the inheritance chain. Likewise sections 16.18.2, 16.18.6 (16.18.10 is ok). In both cases, one has to distinguish between S<sub>static</sub>, the superclass of the enclosing class, and S<sub>dynamic</sub>, the superclass of the mixin application executimg at the point of the call.
+The text for super invocation (16.7.3) needs to be slightly revised so it is clear that the call is late bound (at least conceptually) to the next mixin application up the inheritance chain. Likewise sections 16.18.2, 16.18.6 (16.18.10 is ok). In both cases, one has to distinguish between S<sub>static</sub>, the superclass of the enclosing class, and S<sub>dynamic</sub>, the superclass of the mixin application executing at the point of the call.
 
  To achieve this, we revise the initial section of 16.17.3
 
