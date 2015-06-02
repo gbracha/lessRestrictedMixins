@@ -113,21 +113,22 @@ Reasonable answers exist for all these issues, but their implementation is non-t
 
 Furthermore, in section 12.1 Mixin Application, we add the following:
 
-Let M_A be mixin derived from a class M.
-If a class declaration includes M_A in its extends clause, then if the class is not a subtype of M, a warning is issued.
+Let *M<sub>A</sub>* be mixin derived from a class *M*.
+If a class declaration includes *M<sub>A</sub>* in its extends clause, then if the class is not a subtype of *M*, a warning is issued.
 
 
 ## 16.15.1 Method Lookup
 
-The result of a lookup of a method m in object o with respect to library L is the result of a lookup of method m in class C with respect to library L, where C is the class of o.
-The result of a lookup of method m in class C with respect to library L is: If C declares a concrete instance method named m that is accessible to L, then that method is the result of the lookup, and we say that the method was lookeup in C. Otherwise, if C has a superclass S, then the result of the lookup is the result of looking up m in S with respect to L. Otherwise, we say that the method lookup has failed.
+The result of a lookup of a method *m* in object *o* with respect to library *L* is the result of a lookup of method *m* in class *C* with respect to library *L*, where *C* is the class of *o*.
+The result of a lookup of method m in class *C* with respect to library *L* is: If *C* declares a concrete instance method named m that is accessible to *L*, then that method is the result of the lookup, and we say that the method was lookeup in *C*. Otherwise, if *C* has a superclass *S*, then the result of the lookup is the result of looking up *m* in *S* with respect to *L*. Otherwise, we say that the method lookup has failed.
 The motivation for skipping abstract members during lookup is largely to allow smoother mixin composition.
 
 
 ## 16.15.2 Getter and Setter Lookup
 
-The result of a lookup of a getter (respectively setter) m in object o with respect to library L is the result of looking up getter (respectively setter) m in class C with respect to L, where C is the class of o.
-The result of a lookup of a getter (respectively setter) m in class C with respect to library L is: If C declares a concrete instance getter (respectively setter) named m that is accessible to L, then that getter (respectively setter) is the result of the lookup, and we say that the getter was lookeup in C. Otherwise, if C has a superclass S, then the result of the lookup is the result of looking up getter (respectively setter) m in S with respect to L. Otherwise, we say that the lookup has failed.
+The result of a lookup of a getter (respectively setter) *m* in object *o* with respect to library *L* is the result of looking up getter (respectively setter) *m* in class *C* with respect to *L*, where *C* is the class of *o*.
+
+The result of a lookup of a getter (respectively setter) *m* in class *C* with respect to library *L* is: If *C* declares a concrete instance getter (respectively setter) named *m* that is accessible to L, then that getter (respectively setter) is the result of the lookup, and we say that the getter was lookeup in *C*. Otherwise, if *C* has a superclass *S*, then the result of the lookup is the result of looking up getter (respectively setter) *m* in *S* with respect to *L*. Otherwise, we say that the lookup has failed.
 The motivation for skipping abstract members during lookup is largely to allow smoother mixin composition.
 
 The text for super invocation (16.7.3) needs to be slightly revised so it is clear that the call is late bound (at least conceptually) to the next mixin application up the inheritance chain. Likewise sections 16.18.2, 16.18.6 (16.18.10 is ok). In both cases, one has to distinguish between S<sub>static</sub>, the superclass of the enclosing class, and S<sub>dynamic</sub>, the superclass of the mixin application executimg at the point of the call.
@@ -136,16 +137,16 @@ The text for super invocation (16.7.3) needs to be slightly revised so it is cle
 
 ## 16.17.3 Super Invocation
 
-A super method invocation i has the form super.m(a1,...,an,xn+1 : an+1,...,xn+k : an+k).
-Evaluation of i proceeds as follows:
+A super method invocation *i* has the form *super.m(a<sub>1</sub>,...,a<sub>n</sub>,x<sub>n+1</sub> : a<sub>n+1</sub>,...,x<sub>n+k</sub> : a<sub>n+k</sub>)*.
+Evaluation of *i* proceeds as follows:
 
-First, the argument list (a1,...,an,xn+1 : an+1,...,xn+k : an+k) is evaluated yielding actual argument objects o1, . . . , on+k. Let g be the method currently executing, and let C be the class in which g was looked up. Let S<sub>dynamic</sub> be the superclass of C ~~the immediately enclosing class~~, and let f be the result of looking up method (16.15.1) m in S<sub>dynamic</sub> with respect to the current library L.
+First, the argument list *(a<sub>1</sub>,...,a<sub>n</sub>,x<sub>n+1</sub> : a<sub>n+1</sub>,...,x<sub>n+k</sub> : a<sub>n+k</sub>)* is evaluated yielding actual argument objects *o<sub>1</sub>*, . . . , o<sub>n+k</sub>. Let *g* be the method currently executing, and let *C* be the class in which *g* was looked up. Let *S<sub>dynamic</sub>* be the superclass of *C* ~~the immediately enclosing class~~, and let *f* be the result of looking up method (16.15.1) *m* in *S<sub>dynamic</sub>* with respect to the current library *L*.
 
 
 In addition, we revise the last paragraph of 16.17.3 to state:
 
-Let S_static be the superclass of the immediately enclosing class. It is a static type warning if S<sub>static</sub> does not have an accessible (6.2) instance
-member named m unless S<sub>static</sub> or a superinterface of S<sub>static</sub> is annotated with an annotation denoting a constant identical to the constant @proxy defined in dart:core. If S<sub>static</sub>.m exists, it is a static type warning if the type F of S<sub>static</sub>.m may not be assigned to a function type. If S<sub>static</sub>.m does not exist, or if F is not a function type, the static type of i is dynamic; otherwise the static type of i is the declared return type of F.
+Let *S<sub>static</sub>* be the superclass of the immediately enclosing class. It is a static type warning if *S<sub>static</sub>* does not have an accessible (6.2) instance
+member named *m* unless *S<sub>static</sub>* or a superinterface of *S<sub>static</sub>* is annotated with an annotation denoting a constant identical to the constant @proxy defined in dart:core. If *S<sub>static</sub>.m* exists, it is a static type warning if the type *F* of *S<sub>static</sub>.m* may not be assigned to a function type. If *S<sub>static</sub>.m* does not exist, or if *F* is not a function type, the static type of *i* is dynamic; otherwise the static type of *i* is the declared return type of *F*.
 
 
 
