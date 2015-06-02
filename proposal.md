@@ -113,23 +113,25 @@ Reasonable answers exist for all these issues, but their implementation is non-t
 
 Furthermore, in section 12.1 Mixin Application, we add the following:
 
-Let *M<sub>A</sub>* be mixin derived from a class *M*.
+Let *M<sub>A</sub>* be a mixin derived from a class *M*.
 If a class declaration includes *M<sub>A</sub>* in its extends clause, then if the class is not a subtype of *M*, a warning is issued.
 
 
 ## 16.15.1 Method Lookup
 
 The result of a lookup of a method *m* in object *o* with respect to library *L* is the result of a lookup of method *m* in class *C* with respect to library *L*, where *C* is the class of *o*.
-The result of a lookup of method m in class *C* with respect to library *L* is: If *C* declares a concrete instance method named m that is accessible to *L*, then that method is the result of the lookup, and we say that the method was lookeup in *C*. Otherwise, if *C* has a superclass *S*, then the result of the lookup is the result of looking up *m* in *S* with respect to *L*. Otherwise, we say that the method lookup has failed.
-The motivation for skipping abstract members during lookup is largely to allow smoother mixin composition.
+The result of a lookup of method *m* in class *C* with respect to library *L* is: If *C* declares a concrete instance method named *m* that is accessible to *L*, then that method is the result of the lookup, and we say that the method was *looked up in C*. Otherwise, if *C* has a superclass *S*, then the result of the lookup is the result of looking up *m* in *S* with respect to *L*. Otherwise, we say that the method lookup has failed.
+
+*The motivation for skipping abstract members during lookup is largely to allow smoother mixin composition.*
 
 
 ## 16.15.2 Getter and Setter Lookup
 
 The result of a lookup of a getter (respectively setter) *m* in object *o* with respect to library *L* is the result of looking up getter (respectively setter) *m* in class *C* with respect to *L*, where *C* is the class of *o*.
 
-The result of a lookup of a getter (respectively setter) *m* in class *C* with respect to library *L* is: If *C* declares a concrete instance getter (respectively setter) named *m* that is accessible to L, then that getter (respectively setter) is the result of the lookup, and we say that the getter was lookeup in *C*. Otherwise, if *C* has a superclass *S*, then the result of the lookup is the result of looking up getter (respectively setter) *m* in *S* with respect to *L*. Otherwise, we say that the lookup has failed.
-The motivation for skipping abstract members during lookup is largely to allow smoother mixin composition.
+The result of a lookup of a getter (respectively setter) *m* in class *C* with respect to library *L* is: If *C* declares a concrete instance getter (respectively setter) named *m* that is accessible to *L*, then that getter (respectively setter) is the result of the lookup, and we say that the getter was lookeup in *C*. Otherwise, if *C* has a superclass *S*, then the result of the lookup is the result of looking up getter (respectively setter) *m* in *S* with respect to *L*. Otherwise, we say that the lookup has failed.
+
+*The motivation for skipping abstract members during lookup is largely to allow smoother mixin composition.*
 
 The text for super invocation (16.7.3) needs to be slightly revised so it is clear that the call is late bound (at least conceptually) to the next mixin application up the inheritance chain. Likewise sections 16.18.2, 16.18.6 (16.18.10 is ok). In both cases, one has to distinguish between S<sub>static</sub>, the superclass of the enclosing class, and S<sub>dynamic</sub>, the superclass of the mixin application executimg at the point of the call.
 
@@ -140,7 +142,7 @@ The text for super invocation (16.7.3) needs to be slightly revised so it is cle
 A super method invocation *i* has the form *super.m(a<sub>1</sub>,...,a<sub>n</sub>,x<sub>n+1</sub> : a<sub>n+1</sub>,...,x<sub>n+k</sub> : a<sub>n+k</sub>)*.
 Evaluation of *i* proceeds as follows:
 
-First, the argument list *(a<sub>1</sub>,...,a<sub>n</sub>,x<sub>n+1</sub> : a<sub>n+1</sub>,...,x<sub>n+k</sub> : a<sub>n+k</sub>)* is evaluated yielding actual argument objects *o<sub>1</sub>*, . . . , o<sub>n+k</sub>. Let *g* be the method currently executing, and let *C* be the class in which *g* was looked up. Let *S<sub>dynamic</sub>* be the superclass of *C* ~~the immediately enclosing class~~, and let *f* be the result of looking up method (16.15.1) *m* in *S<sub>dynamic</sub>* with respect to the current library *L*.
+First, the argument list *(a<sub>1</sub>,...,a<sub>n</sub>,x<sub>n+1</sub> : a<sub>n+1</sub>,...,x<sub>n+k</sub> : a<sub>n+k</sub>)* is evaluated yielding actual argument objects *o<sub>1</sub>*, . . . , *o<sub>n+k</sub>*. Let *g* be the method currently executing, and let *C* be the class in which *g* was looked up. Let *S<sub>dynamic</sub>* be the superclass of *C* ~~the immediately enclosing class~~, and let *f* be the result of looking up method (16.15.1) *m* in *S<sub>dynamic</sub>* with respect to the current library *L*.
 
 
 In addition, we revise the last paragraph of 16.17.3 to state:
