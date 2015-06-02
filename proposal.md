@@ -1,4 +1,4 @@
-#Less Restricted Mixins (Work in Progress)
+#Less Restricted Mixins
 
 ## Contact information
 
