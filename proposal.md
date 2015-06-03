@@ -84,8 +84,11 @@ class MyElement extends PolymerElement with FooBehavior, BarBehavior implements 
 When the `ready` method is invoked on `MyElement`, this will print:
 
 MyElement ready
+
 PolymerElement ready
+
 FooBehavior ready
+
 BarBehavior ready
 
 In this case, none of the constructors along the superclass chain take parameters, which simplifies matters considerably. 
@@ -94,7 +97,7 @@ In this case, none of the constructors along the superclass chain take parameter
 
 ##Semantics
 
-As noted, only one of the existing three restrictions on classes used as miixns in retained: the class cannot have a non-trivial constructor. This in turn implies that its superclass cannot have a non-trivial constructor.
+As noted, only one of the existing three restrictions on classes used as mixins in retained: the class cannot have a non-trivial constructor. This in turn implies that its superclass cannot have a non-trivial constructor.
 
 A mixin application is treated as subtype of the class whose mixin is being applied. Warnings are given if this would not in fact be the case. Specifically, if the mixin is applied to a superclass that is not a subtype of the superclass of origianl class, a warning issued. This serves two purposes:
 
