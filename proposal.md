@@ -12,7 +12,7 @@
 
 ##Summary 
 
-We propose to remove the some of restrictions on mixins curently in Dart. Specifically
+We propose to remove the some of restrictions on mixins currently in Dart. Specifically
 
 * Mixins can refer to super.
 * Mixins can have superclasses other than Object.
@@ -97,9 +97,9 @@ In this case, none of the constructors along the superclass chain take parameter
 
 ##Semantics
 
-As noted, only one of the existing three restrictions on classes used as mixins in retained: the class cannot have a non-trivial constructor. This in turn implies that its superclass cannot have a non-trivial constructor.
+As noted, only one of the existing three restrictions on classes used as mixins is retained: the class cannot have a non-trivial constructor. This in turn implies that its superclass must have a trivial constructor.
 
-A mixin application is treated as subtype of the class whose mixin is being applied. Warnings are given if this would not in fact be the case. Specifically, if the mixin is applied to a superclass that is not a subtype of the superclass of origianl class, a warning issued. This serves two purposes:
+A mixin application is treated as subtype of the class whose mixin is being applied. Warnings are given if this would not in fact be the case. Specifically, if the mixin is applied to a superclass that is not a subtype of the superclass of original class, a warning issued. This serves two purposes:
 
 + It gives notice that **super** calls in the code may fail, as they will be bound to the actual superclass which may be lacking expected members.
 
@@ -113,9 +113,9 @@ The semantics are described by the specification changes below.
 
 We revise section 12 of the specification to remove the restrictions on superclasses and the use of **super**. This includes changes to the body of section 12, and appending some text to section 12.1.
 
-The text for super invocation needs to be slightly revised so it is clear that the call is late bound (at least conceptually) to the next mixin application up the inheritance chain. This occurs in sections 16.17.3, 16.18.2, 16.18.6, 16.19. In all cases, one has to distinguish between S<sub>static</sub>, the superclass of the enclosing class, and S<sub>dynamic</sub>, the superclass of the mixin application executing at the point of the call.
+The text for **super** invocation needs to be slightly revised so it is clear that the call is late bound (at least conceptually) to the next mixin application up the inheritance chain. This occurs in sections 16.17.3, 16.18.2, 16.18.6, 16.19. In all cases, one has to distinguish between S<sub>static</sub>, the superclass of the enclosing class, and S<sub>dynamic</sub>, the superclass of the mixin application executing at the point of the call.
 
-In support of the above, a slight change in the wordoing of 16.15.1 and 16.15.2 is required. The changed is highlighted in **bold**.
+In support of the above, a slight change in the wording of 16.15.1 and 16.15.2 is required. The changed is highlighted in **bold**.
 
 
 
@@ -126,7 +126,7 @@ A mixin describes the difference between a class and its superclass. A mixin is 
 
 ~~It is a compile-time error if a declared or derived mixin refers to super.~~ It is a compile-time error if a declared or derived mixin explicitly declares a constructor. ~~It is a compile-time error if a mixin is derived from a class whose superclass is not Object.~~
 
-These restrictions are temporary. We expect to remove them in later versions of Dart.
+This restrictions is temporary. We expect to remove it in later versions of Dart.
 ~~The restriction on the use of super avoids the problem of rebinding super when the mixin is bound to difference superclasses.~~
 
 The restriction on constructors simplifies the construction of mixin applications because the process of creating instances is simpler.
