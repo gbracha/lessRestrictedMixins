@@ -99,13 +99,12 @@ In this case, none of the constructors along the superclass chain take parameter
 
 As noted, only one of the existing three restrictions on classes used as mixins is retained: the class cannot have a non-trivial constructor. This in turn implies that its superclass must have a trivial constructor.
 
-A mixin application is treated as subtype of the class whose mixin is being applied. Warnings are given if this would not in fact be the case. Specifically, if the mixin is applied to a superclass that is not a subtype of the superclass of original class, a warning issued. This serves two purposes:
+A mixin application is treated as a subtype of the class whose mixin is being applied. Warnings are given if this would not in fact be the case. Specifically, if the mixin is applied to a superclass that is not a subtype of the superclass of original class, a warning issued. This serves two purposes:
 
 + It gives notice that **super** calls in the code may fail, as they will be bound to the actual superclass which may be lacking expected members.
 
 + It gives notice that the mixin application itself may not provide all the expected interface of the mixin, since some inherited members might be missing.
 
-In addition, a warning is issued if the class declaration incorporating the mixin application does not implement all the direct superinterfaces that the original mixin listed. This serves a similar purpose to the latter bullet above. 
 
 The ability to use **super** in a mixin implies that **super** calls are no longer statically bound to the superclass of the class in which they appear. The actual superclass the call will bind to is the class to which the mixin is applied. This can be implemented in different ways - either by dynamic binding or by copying modified versions of the containing method to the mxin application.
 
