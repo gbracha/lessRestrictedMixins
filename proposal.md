@@ -101,9 +101,9 @@ As noted, only one of the existing three restrictions on classes used as mixins 
 
 A mixin application is treated as a subtype of the class whose mixin is being applied. Warnings are given if this would not in fact be the case. Specifically, if the mixin is applied to a superclass that is not a subtype of the superclass of original class, a warning issued. This gives notice that the mixin application itself may not provide all the expected interface of the mixin, since some inherited members might be missing.
 
-The existing specification will ensure that a warning is given if **super** calls in the code may fail, as they will be bound to the actual superclass which may be lacking expected members. Likewsie, if any superinterfaces of the mixin are not properly supported, a warning will be given under existing rules.
+The existing specification will ensure that a warning is given if **super** calls in the code may fail, as they will be bound to the actual superclass which may be lacking expected members. Likewise, if any superinterfaces of the mixin are not properly supported, a warning will be given under existing rules.
 
-The ability to use **super** in a mixin implies that **super** calls are no longer statically bound to the superclass of the class in which they appear. The actual superclass the call will bind to is the class to which the mixin is applied. This can be implemented in different ways - either by dynamic binding or by copying modified versions of the containing method to the mxin application.
+The ability to use **super** in a mixin implies that **super** calls are no longer statically bound to the superclass of the class in which they appear. The actual superclass the call will bind to is the class to which the mixin is applied. This can be implemented in different ways - either by dynamic binding or by copying modified versions of the containing method to the mixin application.
 
 The semantics are described by the specification changes below.
 
