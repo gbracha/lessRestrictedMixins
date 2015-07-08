@@ -8,7 +8,11 @@
 
 3. **https://github.com/gbracha/lessRestrictedMixins** 
 
+##Status
 
+This proposal has been [accepted](https://github.com/dart-lang/dart_enhancement_proposals/issues/34#event-339226885)
+by the DEP committee. A [meta-issue](https://github.com/dart-lang/sdk/issues/23770)
+has been filed for implementation.
 
 ##Summary 
 
