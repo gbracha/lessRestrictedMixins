@@ -21,7 +21,7 @@ We propose to remove the some of restrictions on mixins currently in Dart. Speci
 * Mixins can refer to super.
 * Mixins can have superclasses other than Object.
 
-When a mixin is applied, the resulting type is a subtype of the mixin type, as it is today. However, if the resulting type would not otherwise be a subtype of the declared supertypes of the mixin, a warning is issued. Hence, a mixin application would have to declare, directly or indirectly, that itssuperclass implements the mixin's superclass, and that it implements the mixin's superinterfaces in order to be warning-free.
+When a mixin is applied, the resulting type is a subtype of the mixin type, as it is today. However, if the resulting type would not otherwise be a subtype of the declared supertypes of the mixin, a warning is issued. Hence, a mixin application would have to declare, directly or indirectly, that its superclass implements the mixin's superclass, and that it implements the mixin's superinterfaces in order to be warning-free.
 
 
 ##Motivation
